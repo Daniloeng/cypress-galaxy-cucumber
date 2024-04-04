@@ -1,0 +1,33 @@
+trigger:
+ - master
+ 
+pool: VM Scale Set PROD
+
+steps:
+ - task: NodeTool@0
+   inputs:
+     versionSpec: "18.x"
+   displayName: "Install Node.js"
+
+ - task: Npm@1
+   displayName: 'Cypress install packages'
+   inputs:
+      command: install
+      workingDir: '$(Build.Repository.LocalPath)'
+      verbose: true
+
+ - script: npm install -g @deepakvishwakarma/cucumber-json-formatter
+   displayName: 'Cypres install cucumber-json-formatter'
+
+ - script: npm run reports:runandcreate
+   env:
+     BASE_URL: "https://galaxyuatdm.whitestar.pt"
+   displayName: 'Cypres run tests'
+   continueOnError: true
+
+ - task: PublishBuildArtifacts@1
+   displayName: "Publish Reports"
+   continueOnError: false
+   inputs:
+     pathtoPublish: '$(Build.Repository.LocalPath)\cypress\reports'
+     ArtifactName: reports
