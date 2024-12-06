@@ -1,7 +1,7 @@
 import { Then } from "@badeball/cypress-cucumber-preprocessor";
 
 Then(`On {string} different page should be open`, (title) => {
-    cy.get(".gx-datatable__title",{timeout:8000}).should('be.visible').contains(title);
+    cy.get(".gx-datatable__title",{ timeout: 8000 }).should('be.visible').contains(title);
 });
 
 Then(`On {string} page should be open`, (title) => {
@@ -12,5 +12,5 @@ Then(`On {string} page should be open`, (title) => {
 });
 
 Then(`On {string} title page should be showed`, (title) => {
-    cy.get('.ent-regulatory-color',{timeout:8000}).should('be.visible').contains(title);
+    cy.get('.ent-regulatory-color',{ timeout: 8000 }).should('be.visible').contains(title);
 });

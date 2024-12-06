@@ -4,7 +4,7 @@ const currentDate = moment().format('D');
 
 export const approveAmicableProposalData = {
     proposalStatusId: 4,
-    managerId: 2169,
+    managerId: 2215,
     proposalTypeId: 1,
     domainEntityType: 33,
     entityId: 2241534,
@@ -15,12 +15,12 @@ export const approveAmicableProposalData = {
     recurrencyValue: 4,
     paymentMethodId: 1,
     paymentSubMethodId: 3,
-    reviewerId: 2171
+    reviewerId: 2221
 };
 
 export const changeToDraftAmicableProposalData = {
     proposalStatusId: 4,
-    managerId: 1,
+    managerId: 2195,
     businessAreaId: 1,
     proposalTypeId: 1,
     domainEntityType: 33,
@@ -32,12 +32,12 @@ export const changeToDraftAmicableProposalData = {
     recurrencyValue: 4,
     paymentMethodId: 1,
     paymentSubMethodId: 3,
-    reviewerId: 2171
+    reviewerId: 2221
 };
 
 export const changeAcknowledgeToDraftData = {
     proposalStatusId: 2,
-    managerId: 1,
+    managerId: 2195,
     businessAreaId: 1,
     proposalTypeId: 1,
     domainEntityType: 33,
@@ -49,12 +49,12 @@ export const changeAcknowledgeToDraftData = {
     recurrencyValue: 4,
     paymentMethodId: 1,
     paymentSubMethodId: 3,
-    reviewerId: 2171
+    reviewerId: 2221
 };
 
 export const amicableProposalCompleteFlowData = {
     proposalStatusId: 1,
-    managerId: 1,
+    managerId: 2195,
     proposalTypeId: 1,
     domainEntityType: 33,
     entityId: 123164,
@@ -65,12 +65,12 @@ export const amicableProposalCompleteFlowData = {
     recurrencyValue: 4,
     paymentMethodId: 1,
     paymentSubMethodId: 3,
-    reviewerId: 2171
+    reviewerId: 2221
 };
 
 export const amicableProposalWithoutLegalCaseData = {
     proposalStatusId: 1,
-    managerId: 1,
+    managerId: 2195,
     proposalTypeId: 1,
     domainEntityType: 33,
     entityId: 2674282,
@@ -81,12 +81,12 @@ export const amicableProposalWithoutLegalCaseData = {
     recurrencyValue: 4,
     paymentMethodId: 1,
     paymentSubMethodId: 3,
-    reviewerId: 2171
+    reviewerId: 2221
 };
 
 export const amicableProposalWithoutLegalCaseAndReviwerData = {
     proposalStatusId: 1,
-    managerId: 1,
+    managerId: 2195,
     proposalTypeId: 1,
     domainEntityType: 33,
     entityId: 2674282,
@@ -102,7 +102,7 @@ export const amicableProposalWithoutLegalCaseAndReviwerData = {
 
 export const amicableProposalWithoutReviwerData = {
     proposalStatusId: 1,
-    managerId: 1,
+    managerId: 2195,
     proposalTypeId: 1,
     domainEntityType: 33,
     entityId: 123164,
@@ -118,7 +118,7 @@ export const amicableProposalWithoutReviwerData = {
 
 export const abortAmicableProposalData = {
     proposalStatusId: 5,
-    managerId: 2169,
+    managerId: 2195,
     proposalTypeId: 1,
     domainEntityType: 33,
     entityId: 2241534,
@@ -129,5 +129,5 @@ export const abortAmicableProposalData = {
     recurrencyValue: 4,
     paymentMethodId: 1,
     paymentSubMethodId: 3,
-    reviewerId: 2171
+    reviewerId: 2221
 };

@@ -21,7 +21,7 @@ export function getSecuritization(securitizationId) {
  * 
  */
 export function editSecurtization(securitizationId, isCompleted) {     
-    const path = `/api/debts/Securitization/${securitizationId}`; 
+    const path = `/api/debts/Securitization/`; 
     getSecuritization(securitizationId).then((securitizationObject) => { 
     const bodyRequest = 
     {
@@ -37,6 +37,6 @@ export function editSecurtization(securitizationId, isCompleted) {
       "rowVersion": securitizationObject.rowVersion
     };
 
-    putRequest(path, proposal.id, bodyRequest);
+    putRequest(path, securitizationId, bodyRequest);
   });
 }

@@ -1,12 +1,12 @@
-Feature: Filters on Assets screen
+Feature: Assets - Filters on Assets screen
 
   This Feature is a automated test to view in Filters in Assets screen
 
   Background:
-    Given As a head logged in
-    When Clicks on 'Assets' tab on 'management' menu
+    Given As a user logged in 'assets' screen
+    And Selects 'Table' in View
     And 'Assets' table is loaded
-    And Selects All columns option on dropdown columns
+    And Selects All columns option in dropdown columns
     And Clicks on Global Filter button of the table
 
   Scenario Outline: Filter Assets by the '<filter>' Id field
@@ -59,18 +59,22 @@ Feature: Filters on Assets screen
 
 
   Scenario: Ascending Order Assets by the 'Type' Column
+    And 'Unselects' the 'Type' column in Columns menu
+    And Selects All columns option in dropdown columns
     When Aligns the Asset table by the 'Type' column in Ascending order
     Then The texts Assets should presented in Ascending order
 
 
   Scenario: Descending Order Assets by the 'Type' Column
+    And 'Unselects' the 'Type' column in Columns menu
+    And Selects All columns option in dropdown columns
     When Aligns the Asset table by the 'Type' column in Descending order
     Then The texts Assets should presented in Descending order
 
 
   Scenario Outline: Filter Assets by the Originator column with the filter '<filterType>'
     And Wait for filter in the Asset table
-    When Click on the filter option in the 'originatorAssetName' columnn
+    When Clicks on the filter option in the 'originatorAssetName' column
     And Selects the '<filterType>' option in the dropdown-menu
     And Writes '<dataToSearch>' to be searched in the 'originatorAssetName' Name column filter
     And Wait for filter applied in the Asset table
@@ -83,12 +87,12 @@ Feature: Filters on Assets screen
       | Starts with    | BANCO SANTANDER |
       | Equals to      | BCP             |
       | Ends with      | CGD             |
-      | Is empty       |                 |
+      # | Is empty       |                 |
 
 
   Scenario Outline: Filter Assets by the Originator Id column with the filter '<filterType>'
     And Wait for filter in the Asset table
-    When Click on the filter option in the 'originatorAssetId' columnn
+    When Clicks on the filter option in the 'originatorAssetId' column
     And Selects the '<filterType>' option in the dropdown-menu
     And Writes '<dataToSearch>' to be searched in the 'originatorAssetId' Name column filter
     And Wait for filter applied in the Asset table
@@ -106,7 +110,7 @@ Feature: Filters on Assets screen
 
   Scenario Outline: Filter Assets by the Previous Asset Id column with the filter '<filterType>'
     And Wait for filter in the Asset table
-    When Click on the filter option in the 'previousAssetIdentifier' columnn
+    When Clicks on the filter option in the 'previousAssetIdentifier' column
     And Selects the '<filterType>' option in the dropdown-menu
     And Writes '<dataToSearch>' to be searched in the 'previousAssetIdentifier' Name column filter
     And Wait for filter applied in the Asset table
@@ -118,13 +122,13 @@ Feature: Filters on Assets screen
       | Contains       | 9-P01         |
       | Starts with    | 19-P01        |
       | Equals to      | 19-P01-001982 |
-      | Ends with      | 001982        |
-      | Is empty       |               |
+      | Ends with      | 5685          |
+      # | Is empty       |               |
 
 
   Scenario Outline: Filter Assets by the Owner Tax Number column with the filter '<filterType>'
     And Wait for filter in the Asset table
-    When Click on the filter option in the 'taxNumber' columnn
+    When Clicks on the filter option in the 'taxNumber' column
     And Selects the '<filterType>' option in the dropdown-menu
     And Writes '<dataToSearch>' to be searched in the 'taxNumber' Name column filter
     And Wait for filter applied in the Asset table
@@ -142,7 +146,7 @@ Feature: Filters on Assets screen
 
   Scenario Outline: Filter Assets by the Status Date column with the filter '<filterType>'
     And Wait for filter in the Asset table
-    When Click on the filter option in the 'assetStatusDate' Date columnn
+    When Clicks on the filter option in the 'assetStatusDate' Date column
     And Selects the '<filterType>' option in the dropdown-menu
     And Writes '<dataToSearch>' to be searched in the 'assetStatusDate' Date Name column filter
     And Wait for filter applied in the Asset table

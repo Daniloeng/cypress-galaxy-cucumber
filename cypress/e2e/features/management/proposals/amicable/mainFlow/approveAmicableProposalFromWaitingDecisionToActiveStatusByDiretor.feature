@@ -4,17 +4,19 @@ Feature: Change an Amicable Proposal from Waiting Decision to Rejected Status by
 
     Scenario Outline: Approve an Amicable Proposal in Waiting Decision Status '<strategyName>' Strategy by Diretor
         Given Create an Amicable proposal with id "<strategyId>" "<strategyName>" strategy to change to active status
+        # //for execution in parallel
+        And Set '2195' testUserId on Local storage
         And Verify default user
         When Clicks on 'Provide Decision' button in Current Status view
         And Activates the choice of delegating the decision
-        And Selects 'testautomationhead' in Delegate User field
+        And Selects 'testhead1' in Delegate User field
         And Types a comment 'Forward for analysis and decision' on Recommendation field
         And Clicks on Save button from proposal modal
         Then The proposal should be change the atention status to 'Waiting Decision'
         And Should be visible a text 'Forward for analysis and decision' alert in current timeline
 
         #Delegate to Diretor
-        When Delegate the season to the 'testautomationhead' user
+        When Delegate the season to the 'testhead1' user
         And Clicks on 'Provide Decision' button in Current Status view
         And Selects 'Approve' button decision
         And Types a comment 'Amicable proposal Approved by Diretor' on Comments field

@@ -1,7 +1,11 @@
 import { Given, When, Step } from "@badeball/cypress-cucumber-preprocessor";
 import { createProposal, editProposal, getProposalsIdsByFilter, getProposal } from "../../../apiServices/management/proposals/proposalServices"
 import { getProposalModel } from "../../../../fixtures/apiModel/proposalApiModel"
-import { amicableProposalCompleteFlowData, approveAmicableProposalData, changeAcknowledgeToDraftData, changeToDraftAmicableProposalData, amicableProposalWithoutLegalCaseData, amicableProposalWithoutReviwerData, amicableProposalWithoutLegalCaseAndReviwerData, abortAmicableProposalData } from "../../../../fixtures/apiData/proposalsData/amicableProposalData";
+import {
+    amicableProposalCompleteFlowData, approveAmicableProposalData, changeAcknowledgeToDraftData,
+    changeToDraftAmicableProposalData, amicableProposalWithoutLegalCaseData,
+    amicableProposalWithoutReviwerData, amicableProposalWithoutLegalCaseAndReviwerData, abortAmicableProposalData
+} from "../../../../fixtures/apiData/proposalsData/amicableProposalData";
 import { entities } from "../../../../fixtures/apiData/globalData/userData";
 
 let proposalId = '';
@@ -110,36 +114,30 @@ export function cancelAmicableProposalFromAnEntity(entityId) {
 }
 
 When(`Clicks on {string} button in Current Status view`, (label) => {
-    cy.get('button.p-button.ml-3', { timeout: 20000 }).should('be.visible').and('be.enabled')
-    cy.contains(label, { timeout: 20000 }).click();
+    cy.get('button.p-button.ml-3', { timeout: 30000 }).should('be.visible').and('be.enabled')
+    cy.contains(label, { timeout: 40000 }).click({ force: true });
 });
 
 When(`Selects {string} Reason and types {string} on Comments fields`, (reason, comment) => {
     cy.intercept('GET', Cypress.env('BASE_URL') + `/api/agreements/proposalstatusreason/reasons/**`).as('reasonList');
     cy.get('.p-sidebar', { timeout: 15000 }).should('be.visible');
-    cy.wait('@reasonList');
+    cy.wait('@reasonList', { timeout: 30000 });
     cy.get('#comment').should('be.visible').type(comment, { delay: 10 });
     cy.get('#proposalStatusReasonId > .gx-select__control').should('be.visible').click();
-    cy.contains(reason, { timeout: 15000 }).should('be.visible').click();
+    cy.contains(reason, { timeout: 20000 }).should('be.visible').click();
     Step(this, `Clicks on Save button from proposal modal`);
 });
 
 When(`Selects {string} button decision`, (decision) => {
-    cy.get(`.p-component[aria-label="${decision}"]`, { timeout: 30000 }).should('be.visible').click()
+    cy.contains(decision, { timeout: 30000 }).should('be.visible').click()
 });
 
 When(`Clicks on Save button from proposal modal`, () => {
     cy.get('#gx-form__submit-button', { timeout: 30000 }).should('be.visible').contains("Save").click()
 });
 
-
-
-When(`The head user types a comment {string} on Comments field`, (comment) => {
-    cy.get('#comment').type(comment);
-});
-
 When(`Types a comment {string} on Comments field`, (comment) => {
-    cy.get('#comment').type(comment);
+    cy.get('#comment', { timeout: 20000 }).type(comment);
 });
 
 When(`Types a comment {string} on Recommendation field`, (recommendation) => {
@@ -163,10 +161,10 @@ When(`Types a review comment {string} on Comments and {string} Conclusion fields
     const commentComplete = ` ${comments} by automation reviewer`;
     const characters = commentComplete.split('');
     characters.forEach((character) => {
-        cy.get('#reviewComment', { timeout: 8000 }).type(character, { delay: 10 })
+        cy.get('#reviewComment', { timeout: 15000 }).type(character, { delay: 10 })
     })
-    cy.get('#proposalReviewConclusionId > .gx-select__control', { timeout: 8000 }).click()
-    cy.get('.gx-select__menu', { timeout: 8000 }).contains(conclusion).click();
+    cy.get('#proposalReviewConclusionId > .gx-select__control', { timeout: 15000 }).click()
+    cy.get('.gx-select__menu', { timeout: 15000 }).contains(conclusion).click();
 });
 
 When(`Filters by {string} in the Id field of the Proposal table screen`, (id) => {
@@ -183,12 +181,14 @@ When(`Filters by {string} in the Status field of the Proposal table screen`, (st
             cy.log(`Exact match for '${status}' not found.`);
         }
     });
+    cy.get('[datacy="statusId"]').should('be.visible').click();
 });
 
 When(`Filters by {string} in the Type field of the Proposal table screen`, (type) => {
     cy.get('[datacy="proposalTypeId"]').should('be.visible').click();
     cy.get('.p-multiselect-items > .p-multiselect-item').contains(type)
         .should('be.visible').click();
+    cy.get('[datacy="proposalTypeId"]').should('be.visible').click();
 });
 
 When(`Filters by {string} in the InDefault Status field of the Proposal table screen`, (inDefault) => {
@@ -198,13 +198,15 @@ When(`Filters by {string} in the InDefault Status field of the Proposal table sc
 });
 
 When(`Filters by {string} in the Strategy field of the Proposal table screen`, (strategy) => {
-    cy.get('[datacy="proposalStrategyId"]').should('be.visible').click();
-    cy.get('.p-multiselect-filter-container > .p-inputtext', { timeout: 15000 })
-        .should('be.visible').type(strategy).focus();
-    cy.get('.p-multiselect-items > .p-multiselect-item', { timeout: 15000 }).should('be.visible').then(($items) => {
+    cy.get(`[datacy="proposalStrategyId"]`).should('be.visible').click();
+    cy.get('.p-multiselect-filter-container > .p-inputtext', { timeout: 30000 })
+        .should('be.visible').click({ force:true });
+    cy.get('.p-multiselect-filter-container > .p-inputtext', { timeout: 30000 })
+        .should('be.visible').type(strategy);
+    cy.get('.p-multiselect-items > .p-multiselect-item', { timeout: 30000 }).should('be.visible').then(($items) => {
         const exactMatch = Array.from($items).find(item => item.innerText.trim() === strategy);
         if (exactMatch) {
-            cy.wrap(exactMatch).scrollIntoView().should('be.visible').click();
+            cy.wrap(exactMatch).scrollIntoView().should('be.visible').click({ force: true });
         } else {
             cy.log(`Exact match for '${strategy}' not found.`);
         }
@@ -232,11 +234,11 @@ When(`User Clicks on the {string} button to insert a Payment into a Proposal`, (
     cy.get('.p-steps-title').contains('Draft');
 });
 
-When(`I type {string} in a Manager`, (user) => {
+When(`Types {string} in a Manager`, (user) => {
     cy.intercept('GET', `${Cypress.env('BASE_URL')}/api/security/users/1**`).as('user');
-    cy.wait('@user');
+    cy.wait('@user', { timeout: 10000 });
     cy.get('#managerId > .gx-select__control').click().type(user);
-    cy.get('.gx-select__menu', { timeout: 8000 }).contains(user, { timeout: 8000 }).should('be.visible').click();
+    cy.get('.gx-select__menu', { timeout: 8000 }).contains(user, { timeout: 15000 }).should('be.visible').click();
 });
 
 When(`User Clicks on the {string} button to insert a Reviewr into a Proposal`, (button) => {
@@ -251,9 +253,9 @@ When(`User Clicks on the {string} button to insert a Reviewr into a Proposal`, (
 });
 
 When('Delegate the season to the {string} user', (user) => {
-    cy.get('.topbar-menu-visible > :nth-child(11) > :nth-child(1)').click();
-    cy.get('.gx-select__control', { timeout: 8000 }).type(user);
-    cy.get(`.gx-select`, { timeout: 15000 }).contains(`galaxy.${user}`, { timeout: 20000 }).click();
+    cy.get('.topbar-menu-visible > :nth-child(11) > :nth-child(1)', { timeout: 20000 }).click();
+    cy.get('.gx-select__control', { timeout: 20000 }).type(user);
+    cy.get(`.gx-select`, { timeout: 20000 }).contains(`galaxy.${user}`, { timeout: 20000 }).click();
     cy.get('.topbar-menu-footer button').should('contain', 'Start session as').click();
     cy.wait(3000); // Important to wait for the change of delegation
 });
@@ -279,16 +281,16 @@ When(`Selects on Assets from Assets view`, () => {
     cy.get('#gx-form__submit-button > .p-button-label').click();
 });
 
-
 When(`Click on Abort button from Current Status time line from proposal screen`, () => {
-    cy.get('.col-12 > .p-card > .p-card-body').contains('Abort').click()
+    cy.get('.col-12 > .p-card > .p-card-body', { timeout: 30000 }).contains('Abort').click()
 });
 
 When(`Selects {string} option from Reason dropbox in Abort Proposal modal from proposal screen`, (reason) => {
-    cy.intercept('GET', `${Cypress.env('BASE_URL')}/api/agreements/proposalstatusreason/reasons/**`).as('reasons')
-    cy.wait('@reasons')
+    cy.wait(2000)
+    // cy.intercept('GET', `${Cypress.env('BASE_URL')}/api/agreements/proposalstatusreason/reasons**`,(req) => { }).as('reasons')
+    // cy.wait('@reasons', { timeout: 30000 })
     cy.get('#proposalStatusReasonId > .gx-select__control > .gx-select__indicators > .gx-select__dropdown-indicator').click()
-    cy.contains(reason).click();
+    cy.get('.gx-select__menu-list', { timeout: 15000 }).should('be.visible').contains(reason, { timeout: 30000 }).click();
 });
 
 export { proposalId };

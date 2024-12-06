@@ -1,9 +1,11 @@
-Feature: Galaxy - Management - Proposals
+Feature: Amicable Proposal - Abort an Amicable Proposal in Waiting Decision
         As a head user
         I want to abort an amicalbe proposal with their strategys
 
-        Scenario Outline: Reject an Amicable Proposal in Waiting Decision status with <strategyName> strategy
+        Scenario Outline: Abort an Amicable Proposal in Waiting Decision status with <strategyName> strategy
                 Given Create an Amicable proposal with id "<strategyId>" "<strategyName>" strategy to change to abort status
+                # //for execution in parallel
+                And Set '2195' testUserId on Local storage
                 And Verify default user
                 When Click on Abort button from Current Status time line from proposal screen
                 And Types a comment 'Amicable proposal aborted' on Comments field

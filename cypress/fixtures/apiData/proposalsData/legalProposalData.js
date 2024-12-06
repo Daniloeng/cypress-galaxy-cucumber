@@ -1,7 +1,7 @@
 const currentDate = new Date();
 export const inDraftStatus = {
     statusId: 1,
-    managerId: 1,
+    managerId: 2196,
     businessAreaId: 1,
     proposalTypeId: 2,
     transactionAllocationModeId: 2,
@@ -20,7 +20,7 @@ export const inDraftStatus = {
 
 export const inDraftStatusWithReviewer = {
     statusId: 1,
-    managerId: 1,
+    managerId: 2196,
     businessAreaId: 1,
     proposalTypeId: 2,
     transactionAllocationModeId: 2,
@@ -36,13 +36,13 @@ export const inDraftStatusWithReviewer = {
         recurrencyValue: 4
     },
     reviewer: {
-        reviewerId: 2171
+        reviewerId: 2222
     }
 }
 
 export const inWaitingReviewStatusWithReviewer = {
     statusId: 2,
-    managerId: 1,
+    managerId: 2196,
     businessAreaId: 1,
     proposalTypeId: 2,
     transactionAllocationModeId: 2,
@@ -58,13 +58,13 @@ export const inWaitingReviewStatusWithReviewer = {
         recurrencyValue: 4
     },
     reviewer: {
-        reviewerId: 2171
+        reviewerId: 2222
     }
 }
 
 export const inWaitingAcknowledgeStatusWithReviewer = {
     statusId: 3,
-    managerId: 1,
+    managerId: 2196,
     businessAreaId: 1,
     proposalTypeId: 2,
     transactionAllocationModeId: 2,
@@ -80,13 +80,13 @@ export const inWaitingAcknowledgeStatusWithReviewer = {
         recurrencyValue: 4
     },
     reviewer: {
-        reviewerId: 2171
+        reviewerId: 2222
     }
 }
 
 export const inWaitingDecisionStatusWithReviewer = {
     statusId: 4,
-    managerId: 2169,
+    managerId: 2216,
     businessAreaId: 1,
     proposalTypeId: 2,
     transactionAllocationModeId: 2,
@@ -102,13 +102,13 @@ export const inWaitingDecisionStatusWithReviewer = {
         recurrencyValue: 4
     },
     reviewer: {
-        reviewerId: 2171
+        reviewerId: 2222
     }
 }
 
 export const inWaitingDecisionStatusWithReviewerForDelegate = {
     statusId: 4,
-    managerId: 2169,
+    managerId: 2216,
     businessAreaId: 1,
     proposalTypeId: 2,
     transactionAllocationModeId: 2,
@@ -124,13 +124,13 @@ export const inWaitingDecisionStatusWithReviewerForDelegate = {
         recurrencyValue: 4
     },
     reviewer: {
-        reviewerId: 2171
+        reviewerId: 2222
     }
 }
 
 export const inWaitingDecisionStatusWithReviewerForDraft = {
     statusId: 4,
-    managerId: 1,
+    managerId: 2196,
     businessAreaId: 1,
     proposalTypeId: 2,
     transactionAllocationModeId: 2,
@@ -146,6 +146,6 @@ export const inWaitingDecisionStatusWithReviewerForDraft = {
         recurrencyValue: 4
     },
     reviewer: {
-        reviewerId: 2171
+        reviewerId: 2222
     }
 }

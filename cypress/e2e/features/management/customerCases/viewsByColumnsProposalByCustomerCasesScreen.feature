@@ -1,4 +1,4 @@
-Feature: Columns: Proposals by Customer Cases screen
+Feature: Customer Cases - Columns: Proposals by Customer Cases screen
 
         This Feature is a automated test to Operations in Proposals Columns by Customer Cases
 
@@ -6,11 +6,11 @@ Feature: Columns: Proposals by Customer Cases screen
                 Given As a user logged in 'customercases' screen
                 When Selects the first 'id' item from the table
                 And Clicks on the 'Proposals' tab
-                And Selects All columns option on dropdown columns
+                And Selects All columns option in dropdown columns
 
 
         Scenario: Unselects '<option>' column and verify view
-                When 'Unselects' the '<option>' column on Columns menu
+                When 'Unselects' the '<option>' column in Columns menu
                 Then Check if the '<option>' column was removed from view
 
                 Examples:

@@ -1,4 +1,4 @@
-Feature: Change Legal Proposals from Active to Aborted Status
+Feature: Legal Proposal - Change Legal Proposals from Active to Aborted Status
         As a head user
         I want to change Status a Legal Proposal from Actived to Aborted
 
@@ -6,6 +6,8 @@ Feature: Change Legal Proposals from Active to Aborted Status
 
         Scenario Outline: Abort a Legal Proposal from Active Status '<strategy>' Strategy
                 Given Create a Legal Proposal '<strategyId>' strategy in Waiting Decision Status with Reviewer by api
+                # //for execution in parallel
+                And Set '2196' testUserId on Local storage 
                 And Verify default user
                 When Clicks on 'Provide Decision' button in Current Status view
                 And Selects 'Approve' button decision
@@ -20,18 +22,25 @@ Feature: Change Legal Proposals from Active to Aborted Status
 
                 Examples:
                         | strategyId | strategy                            |
-                        | 40         | PER                                 |
-                        | 38         | Sale + PA                           |
-                        | 20         | Payment Agreement                   |
-                        | 39         | Rent Pledge                         |
-                        | 18         | Discount Payoff + Payment Agreement |
-                        | 17         | Discount Payoff                     |
                         | 2          | Loan Sale                           |
-                        | 44         | 3rd Party Sale                      |
                         | 4          | Sale                                |
+                        | 7          | Other Pledges                       |
+                        # | 8          | Salary Pledge                       |
+                        | 17         | Discount Payoff                     |
+                        | 18         | Discount Payoff + Payment Agreement |
+                        | 20         | Payment Agreement                   |
                         | 21         | Payoff                              |
-                        | 41         | BK Payment Plan                     |
-                        | 74         | Legal - CIC Virtual                 |
+                        # | 23         | Pledge                              |
                         | 24         | Recycle Amount(litigator)           |
-                        | 48         | Expected Amount (3rd Party)         |
                         | 30         | Recycle Amount(vehicle)             |
+                        | 31         | Putback                             |
+                        | 38         | Sale + PA                           |
+                        | 39         | Rent Pledge                         |
+                        | 41         | BK Payment Plan                     |
+                        | 40         | PER                                 |
+                        | 44         | 3rd Party Sale                      |
+                        # | 48         | Expected Amount (3rd Party)         |
+                        | 74         | Legal - CIC Virtual                 |
+                        # | 75         | PER - Unsecured                     |
+                        # | 77         | Custas de Parte                     |
+                        | 78         | Rateio                              |

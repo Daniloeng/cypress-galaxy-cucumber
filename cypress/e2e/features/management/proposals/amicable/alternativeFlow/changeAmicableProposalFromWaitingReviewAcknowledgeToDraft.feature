@@ -1,10 +1,12 @@
 @AmicableSmoketest
-Feature: Galaxy - Management - Proposals
+Feature: Amicable Proposal - Change an Amicable proposal in Waiting Review to Draft
     As an Asset Manager
     I want to change an Amicable proposal from Waiting Review Acknowledge to Draft status
 
     Scenario Outline: Change an Amicable proposal in Waiting Review to Draft status using <strategyName> strategy
         Given Create an Amicable proposal with id "<strategyId>" "<strategyName>" strategy to change from acknowledge to draft status
+        # //for execution in parallel
+        And Set '2195' testUserId on Local storage
         And Verify default user
         When Clicks on 'Send to Draft' button in Current Status view
         Then The current Status must be visible 'Draft'

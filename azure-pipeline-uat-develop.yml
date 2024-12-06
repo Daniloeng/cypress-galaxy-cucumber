@@ -12,157 +12,467 @@ stages:
         steps:
           - task: NodeTool@0
             inputs:
-              versionSpec: "18.x"
+              versionSpec: "18.3.x"
             displayName: "Install Node.js"
-
+ 
           - task: Npm@1
             displayName: "Cypress install packages"
             inputs:
               command: install
               workingDir: "$(Build.Repository.LocalPath)"
               verbose: true
-
+ 
           - script: |
               npm install
               npm install -g @deepakvishwakarma/cucumber-json-formatter
             displayName: "Install Cucumber JSON Formatter"
-
-          - script: npm run test:oneFolder
+ 
+          - script: npm run test:multiFolders
             env:
-              BASE_URL: "https://galaxypp.whitestar.pt"
-            displayName: "Run Cypress tests for AccessibilityTests"
+              BASE_URL: "https://galaxyuatdm.whitestar.pt"
+            displayName: "Run Cypress tests for Accessibility Tests"
             continueOnError: true
-
+ 
           - script: npm run reports:create
             displayName: "Generate Cucumber HTML report"
             continueOnError: true
-
+ 
           - task: PublishBuildArtifacts@1
             displayName: "Publish AccessibilityTests Reports"
             continueOnError: false
             inputs:
               pathtoPublish: "$(Build.Repository.LocalPath)/cypress/reports"
               artifactName: reportAccessibilityTests
-
-      # - job: "AmicalbeProposals"
-      #   displayName: "Amicable Proposal"
-      #   continueOnError: true
-      #   timeoutInMinutes: 180
-      #   steps:
-      #     - task: NodeTool@0
-      #       inputs:
-      #         versionSpec: "18.x"
-      #       displayName: "Install Node.js"
-
-      #     - task: Npm@1
-      #       displayName: "Cypress install packages"
-      #       inputs:
-      #         command: install
-      #         workingDir: "$(Build.Repository.LocalPath)"
-      #         verbose: true
-
-      #     - script: |
-      #         npm install
-      #         npm install -g @deepakvishwakarma/cucumber-json-formatter
-      #       displayName: "Install Cypress dependencies"
-
-      #     - script: npm run test:amicable
-      #       env:
-      #         BASE_URL: "https://galaxypp.whitestar.pt"
-      #       displayName: "Run Cypress tests for Amicable Proposal flow"
-      #       continueOnError: true
-
-      #     - script: npm run reports:create
-      #       displayName: "Generate Cucumber HTML report"
-      #       continueOnError: true
-
-      #     - task: PublishBuildArtifacts@1
-      #       displayName: "Publish Reports"
-      #       continueOnError: false
-      #       inputs:
-      #         pathtoPublish: '$(Build.Repository.LocalPath)/cypress/reports'
-      #         artifactName: reportAmicableProposalFlow
-
-      - job: "LegalProposals"
-        # dependsOn: "AmicalbeProposals"
-        displayName: "Legal Proposal"
+      
+      - job: "ManagementTests"
+        displayName: "Management filters and columns tests"
         continueOnError: true
         timeoutInMinutes: 180
         steps:
           - task: NodeTool@0
             inputs:
-              versionSpec: "18.x"
+              versionSpec: "18.3.x"
             displayName: "Install Node.js"
-
+ 
           - task: Npm@1
             displayName: "Cypress install packages"
             inputs:
               command: install
               workingDir: "$(Build.Repository.LocalPath)"
               verbose: true
-
+ 
+          - script: |
+              npm install
+              npm install -g @deepakvishwakarma/cucumber-json-formatter
+            displayName: "Install Cucumber JSON Formatter"
+ 
+          - script: npm run test:managementFolders
+            env:
+              BASE_URL: "https://galaxyuatdm.whitestar.pt"
+            displayName: "Run Cypress tests for Management Tests"
+            continueOnError: true
+ 
+          - script: npm run reports:create
+            displayName: "Generate Cucumber HTML report"
+            continueOnError: true
+ 
+          - task: PublishBuildArtifacts@1
+            displayName: "Publish ManagementTests Reports"
+            continueOnError: false
+            inputs:
+              pathtoPublish: "$(Build.Repository.LocalPath)/cypress/reports"
+              artifactName: reportManagementFoldersTests
+ 
+      - job: "AmicalbeProposals"
+        displayName: "Amicable Proposal"
+        continueOnError: true
+        timeoutInMinutes: 180
+        steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: "18.3.x"
+            displayName: "Install Node.js"
+      
+          - task: Npm@1
+            displayName: "Cypress install packages"
+            inputs:
+              command: install
+              workingDir: "$(Build.Repository.LocalPath)"
+              verbose: true
+      
           - script: |
               npm install
               npm install -g @deepakvishwakarma/cucumber-json-formatter
             displayName: "Install Cypress dependencies"
-
-          - script: npm run test:oneLegal
+      
+          - script: npm run test:amicable
             env:
-              BASE_URL: "https://galaxypp.whitestar.pt"
-            displayName: "Run Cypress tests for Legal Proposal flow"
+              BASE_URL: "https://galaxyuatdm.whitestar.pt"
+            displayName: "Run Cypress tests for Amicable Proposal flow"
             continueOnError: true
-
+      
           - script: npm run reports:create
             displayName: "Generate Cucumber HTML report"
             continueOnError: true
-
+      
+          - task: PublishBuildArtifacts@1
+            displayName: "Publish Reports"
+            continueOnError: false
+            inputs:
+              pathtoPublish: '$(Build.Repository.LocalPath)/cypress/reports'
+              artifactName: reportAmicableProposalFlow
+      
+      - job: "LegalProposals"
+        displayName: "Legal Proposal"
+        continueOnError: true
+        timeoutInMinutes: 180
+        steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: "18.3.x"
+            displayName: "Install Node.js"
+      
+          - task: Npm@1
+            displayName: "Cypress install packages"
+            inputs:
+              command: install
+              workingDir: "$(Build.Repository.LocalPath)"
+              verbose: true
+      
+          - script: |
+              npm install
+              npm install -g @deepakvishwakarma/cucumber-json-formatter
+            displayName: "Install Cypress dependencies"
+      
+          - script: npm run test:legalCase
+            env:
+              BASE_URL: "https://galaxyuatdm.whitestar.pt"
+            displayName: "Run Cypress tests for Legal Proposal flow"
+            continueOnError: true
+      
+          - script: npm run reports:create
+            displayName: "Generate Cucumber HTML report"
+            continueOnError: true
+      
           - task: PublishBuildArtifacts@1
             displayName: "Publish LegalProposals Reports"
             continueOnError: false
             inputs:
               pathtoPublish: "$(Build.Repository.LocalPath)/cypress/reports"
               artifactName: reportLegalProposalFlow
+      
+      - job: "RealEstateProposal"
+        displayName: "Real Estate Proposal, Legal Notifications and Payment Requests"
+        continueOnError: true
+        timeoutInMinutes: 180
+        steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: "18.3.x"
+            displayName: "Install Node.js"
+      
+          - task: Npm@1
+            displayName: "Cypress install packages"
+            inputs:
+              command: install
+              workingDir: "$(Build.Repository.LocalPath)"
+              verbose: true
+      
+          - script: |
+              npm install
+              npm install -g @deepakvishwakarma/cucumber-json-formatter
+            displayName: "Install Cypress dependencies"
+      
+          - script: npm run test:realEstate
+            env:
+              BASE_URL: "https://galaxyuatdm.whitestar.pt"
+            displayName: "Run Cypress tests for Real Estate Proposal flow, Legal Notifications and Payment Requests"
+            continueOnError: true
+      
+          - script: npm run reports:create
+            displayName: "Generate Cucumber HTML report"
+            continueOnError: true
+      
+          - task: PublishBuildArtifacts@1
+            displayName: "Publish Reports"
+            continueOnError: false
+            inputs:
+              pathtoPublish: '$(Build.Repository.LocalPath)/cypress/reports'
+              artifactName: reportRealEstateProposalFlowAndMyWork
 
-      # - job: "RealEstateProposal"
-      #   dependsOn: "LegalProposals"
-      #   displayName: "Real Estate Proposal"
-      #   continueOnError: true
-      #   timeoutInMinutes: 180
-      #   steps:
-      #     - task: NodeTool@0
-      #       inputs:
-      #         versionSpec: "18.x"
-      #       displayName: "Install Node.js"
+      - job: "Documents"
+        displayName: "All Documents submenus"
+        continueOnError: true
+        timeoutInMinutes: 180
+        steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: "18.3.x"
+            displayName: "Install Node.js"
+      
+          - task: Npm@1
+            displayName: "Cypress install packages"
+            inputs:
+              command: install
+              workingDir: "$(Build.Repository.LocalPath)"
+              verbose: true
+      
+          - script: |
+              npm install
+              npm install -g @deepakvishwakarma/cucumber-json-formatter
+            displayName: "Install Cypress dependencies"
+      
+          - script: npm run test:documents
+            env:
+              BASE_URL: "https://galaxyuatdm.whitestar.pt"
+            displayName: "Run Cypress tests for Documents"
+            continueOnError: true
+      
+          - script: npm run reports:create
+            displayName: "Generate Cucumber HTML report"
+            continueOnError: true
+      
+          - task: PublishBuildArtifacts@1
+            displayName: "Publish Reports"
+            continueOnError: false
+            inputs:
+              pathtoPublish: '$(Build.Repository.LocalPath)/cypress/reports'
+              artifactName: reportDocuments
 
-      #     - task: Npm@1
-      #       displayName: "Cypress install packages"
-      #       inputs:
-      #         command: install
-      #         workingDir: "$(Build.Repository.LocalPath)"
-      #         verbose: true
+      - job: "MyWorkOthers"
+        displayName: "Integrations, Key Sets to Return, Price Review and Request"
+        continueOnError: true
+        timeoutInMinutes: 180
+        steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: "18.3.x"
+            displayName: "Install Node.js"
+      
+          - task: Npm@1
+            displayName: "Cypress install packages"
+            inputs:
+              command: install
+              workingDir: "$(Build.Repository.LocalPath)"
+              verbose: true
+      
+          - script: |
+              npm install
+              npm install -g @deepakvishwakarma/cucumber-json-formatter
+            displayName: "Install Cypress dependencies"
+      
+          - script: npm run test:myWorkOthers
+            env:
+              BASE_URL: "https://galaxyuatdm.whitestar.pt"
+            displayName: "Run Cypress tests for My Work"
+            continueOnError: true
+      
+          - script: npm run reports:create
+            displayName: "Generate Cucumber HTML report"
+            continueOnError: true
+      
+          - task: PublishBuildArtifacts@1
+            displayName: "Publish Reports"
+            continueOnError: false
+            inputs:
+              pathtoPublish: '$(Build.Repository.LocalPath)/cypress/reports'
+              artifactName: reportMyWorkOthers
+      
+      - job: "MyWorkTaxDocuments"
+        displayName: "Tax Documents"
+        continueOnError: true
+        timeoutInMinutes: 180
+        steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: "18.3.x"
+            displayName: "Install Node.js"
+      
+          - task: Npm@1
+            displayName: "Cypress install packages"
+            inputs:
+              command: install
+              workingDir: "$(Build.Repository.LocalPath)"
+              verbose: true
+      
+          - script: |
+              npm install
+              npm install -g @deepakvishwakarma/cucumber-json-formatter
+            displayName: "Install Cypress dependencies"
+      
+          - script: npm run test:myWorkTaxDocuments
+            env:
+              BASE_URL: "https://galaxyuatdm.whitestar.pt"
+            displayName: "Run Cypress tests for My Work"
+            continueOnError: true
+      
+          - script: npm run reports:create
+            displayName: "Generate Cucumber HTML report"
+            continueOnError: true
+      
+          - task: PublishBuildArtifacts@1
+            displayName: "Publish Reports"
+            continueOnError: false
+            inputs:
+              pathtoPublish: '$(Build.Repository.LocalPath)/cypress/reports'
+              artifactName: reportMyWorkTaxDocuments
+      
+      - job: "MyWorkPaymentRequest"
+        displayName: "Payment Request"
+        continueOnError: true
+        timeoutInMinutes: 180
+        steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: "18.3.x"
+            displayName: "Install Node.js"
+      
+          - task: Npm@1
+            displayName: "Cypress install packages"
+            inputs:
+              command: install
+              workingDir: "$(Build.Repository.LocalPath)"
+              verbose: true
+      
+          - script: |
+              npm install
+              npm install -g @deepakvishwakarma/cucumber-json-formatter
+            displayName: "Install Cypress dependencies"
+      
+          - script: npm run test:myWorkPaymentRequest
+            env:
+              BASE_URL: "https://galaxyuatdm.whitestar.pt"
+            displayName: "Run Cypress tests for My Work"
+            continueOnError: true
+      
+          - script: npm run reports:create
+            displayName: "Generate Cucumber HTML report"
+            continueOnError: true
+      
+          - task: PublishBuildArtifacts@1
+            displayName: "Publish Reports"
+            continueOnError: false
+            inputs:
+              pathtoPublish: '$(Build.Repository.LocalPath)/cypress/reports'
+              artifactName: reportMyWorkPaymmentRequest
+      
+      - job: "MyWorkLegalNotifications"
+        displayName: "Legal Notifications"
+        continueOnError: true
+        timeoutInMinutes: 180
+        steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: "18.3.x"
+            displayName: "Install Node.js"
+      
+          - task: Npm@1
+            displayName: "Cypress install packages"
+            inputs:
+              command: install
+              workingDir: "$(Build.Repository.LocalPath)"
+              verbose: true
+      
+          - script: |
+              npm install
+              npm install -g @deepakvishwakarma/cucumber-json-formatter
+            displayName: "Install Cypress dependencies"
+      
+          - script: npm run test:myWorkLegalNotifications
+            env:
+              BASE_URL: "https://galaxyuatdm.whitestar.pt"
+            displayName: "Run Cypress tests for My Work"
+            continueOnError: true
+      
+          - script: npm run reports:create
+            displayName: "Generate Cucumber HTML report"
+            continueOnError: true
+      
+          - task: PublishBuildArtifacts@1
+            displayName: "Publish Reports"
+            continueOnError: false
+            inputs:
+              pathtoPublish: '$(Build.Repository.LocalPath)/cypress/reports'
+              artifactName: reportMyWorkLegalNotifications
 
-      #     - script: |
-      #         npm install
-      #         npm install -g @deepakvishwakarma/cucumber-json-formatter
-      #       displayName: "Install Cypress dependencies"
+      - job: "MyWorkMissingTaxDocuments"
+        displayName: "Missing Tax Documents"
+        continueOnError: true
+        timeoutInMinutes: 180
+        steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: "18.3.x"
+            displayName: "Install Node.js"
+      
+          - task: Npm@1
+            displayName: "Cypress install packages"
+            inputs:
+              command: install
+              workingDir: "$(Build.Repository.LocalPath)"
+              verbose: true
+      
+          - script: |
+              npm install
+              npm install -g @deepakvishwakarma/cucumber-json-formatter
+            displayName: "Install Cypress dependencies"
+      
+          - script: npm run test:myWorkMissingTaxDocuments
+            env:
+              BASE_URL: "https://galaxyuatdm.whitestar.pt"
+            displayName: "Run Cypress tests for My Work"
+            continueOnError: true
+      
+          - script: npm run reports:create
+            displayName: "Generate Cucumber HTML report"
+            continueOnError: true
+      
+          - task: PublishBuildArtifacts@1
+            displayName: "Publish Reports"
+            continueOnError: false
+            inputs:
+              pathtoPublish: '$(Build.Repository.LocalPath)/cypress/reports'
+              artifactName: reportMyWorkMissingTaxDocuments
 
-      #     - script: npm run test:realEstate
-      #       env:
-      #         BASE_URL: "https://galaxypp.whitestar.pt"
-      #       displayName: "Run Cypress tests for Legal Proposal flow"
-      #       continueOnError: true
-
-      #     - script: npm run reports:create
-      #       displayName: "Generate Cucumber HTML report"
-      #       continueOnError: true
-
-      #     - task: PublishBuildArtifacts@1
-      #       displayName: "Publish Reports"
-      #       continueOnError: false
-      #       inputs:
-      #         pathtoPublish: '$(Build.Repository.LocalPath)/cypress/reports'
-      #         artifactName: reportRealEstateProposalFlow
-
+      - job: "Services"
+        displayName: "Condominium Entities, Condominium Payments, Key-Sets"
+        continueOnError: true
+        timeoutInMinutes: 180
+        steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: "18.3.x"
+            displayName: "Install Node.js"
+      
+          - task: Npm@1
+            displayName: "Cypress install packages"
+            inputs:
+              command: install
+              workingDir: "$(Build.Repository.LocalPath)"
+              verbose: true
+      
+          - script: |
+              npm install
+              npm install -g @deepakvishwakarma/cucumber-json-formatter
+            displayName: "Install Cypress dependencies"
+      
+          - script: npm run test:services
+            env:
+              BASE_URL: "https://galaxyuatdm.whitestar.pt"
+            displayName: "Run Cypress tests for Services"
+            continueOnError: true
+      
+          - script: npm run reports:create
+            displayName: "Generate Cucumber HTML report"
+            continueOnError: true
+      
+          - task: PublishBuildArtifacts@1
+            displayName: "Publish Reports"
+            continueOnError: false
+            inputs:
+              pathtoPublish: '$(Build.Repository.LocalPath)/cypress/reports'
+              artifactName: reportServices
+ 
   - stage: "MergeTestsReport"
     dependsOn: "CypressTestRun"
     jobs:
@@ -170,31 +480,31 @@ stages:
         steps:
           - task: NodeTool@0
             inputs:
-              versionSpec: "18.x"
+              versionSpec: "18.3.x"
             displayName: "Install Node.js"
-
+  
           - task: Npm@1
-            displayName: "Cucumber install packages"
+            displayName: "Install cucumber-json-merge"
             inputs:
               command: install
               workingDir: "$(Build.Repository.LocalPath)"
               verbose: true
-
+  
           - script: |
-              npm install -g cucumber-json-merge 
-              cucumber-json-merge "$(Build.Repository.LocalPath)/cypress/reports/reportAccessibilityTests/cucumber-json/cucumber-report.json $(Build.Repository.LocalPath)/cypress/reports/reportLegalProposalFlow/cucumber-json/cucumber-report.json -o "$(Build.Repository.LocalPath)/cypress/reports/merged/merged-report.json"
+              npm install --global cucumber-json-merge
+              cucumber-json-merge "$(Build.Repository.LocalPath)/cypress/reports/reportAccessibilityTests/cucumber-json/cucumber-report.json" "$(Build.Repository.LocalPath)/cypress/reports/reportLegalProposalFlow/cucumber-json/cucumber-report.json" -o "$(Build.Repository.LocalPath)/cypress/reports/merged/merged-report.json"
             displayName: "Merge Cucumber JSON reports"
-
+  
           - script: |
-              npm install -g cucumber-html-report 
+              npm install --global cucumber-html-report
               node cucumber-html-report.js --json "$(Build.Repository.LocalPath)/cypress/reports/merged/merged-report.json" --output "$(Build.Repository.LocalPath)/cypress/reports/merged/merged-report.html"
             displayName: "Generate merged HTML report"
-
+  
           - script: |
-              cd $(Build.Repository.LocalPath)\cypress\reports\
+              cd $(Build.Repository.LocalPath)/cypress/reports/merged
               dir
             displayName: check reports
-
+  
           - task: PublishBuildArtifacts@1
             displayName: "Publish pipeline artifact"
             continueOnError: false
@@ -202,3 +512,44 @@ stages:
               targetPath: "$(Build.Repository.LocalPath)/cypress/reports/merged"
               artifactName: finalReport
               publishLocation: "Container"
+
+
+# stages:
+#   - stage: "CypressTestRun"
+#     jobs:
+#       - job: "ExecutionAllTests"
+#         displayName: "Sequential Execution of All Tests"
+#         continueOnError: true
+#         timeoutInMinutes: 360
+#         steps:
+#           - task: NodeTool@0
+#             inputs:
+#               versionSpec: "18.3.x"
+#             displayName: "Install Node.js"
+
+#           - task: Npm@1
+#             displayName: "Cypress install packages"
+#             inputs:
+#               command: install
+#               workingDir: "$(Build.Repository.LocalPath)"
+#               verbose: true
+
+#           - script: npm install -g @deepakvishwakarma/cucumber-json-formatter
+#             displayName: "Cypres install cucumber-json-formatter"
+
+#           - script: npm run reports:runandcreate
+#             env:
+#               BASE_URL: "https://galaxyuatdm.whitestar.pt"
+#             displayName: "Cypres run tests"
+#             continueOnError: true
+
+#           - script: npm run reports:create
+#             displayName: "Generate Cucumber HTML report"
+#             continueOnError: true
+
+#           - task: PublishBuildArtifacts@1
+#             displayName: "Publish Reports"
+#             continueOnError: false
+#             inputs:
+#               pathtoPublish: '$(Build.Repository.LocalPath)\cypress\reports'
+#               ArtifactName: reports

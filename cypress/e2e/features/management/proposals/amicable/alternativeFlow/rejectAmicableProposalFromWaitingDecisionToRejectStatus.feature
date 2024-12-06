@@ -1,9 +1,11 @@
-Feature: Galaxy - Management - Proposals
+Feature: Amicable Proposal - Reject an Amicable Proposal in Waiting Decision
         As a head user
         I want to reject an amicalbe proposal in Waiting Decision status and its strategys
 
         Scenario Outline: Reject an Amicable Proposal in Waiting Decision status with <strategyName> strategy
                 Given Create an Amicable proposal with id "<strategyId>" "<strategyName>" strategy to change to active status
+                # //for execution in parallel
+                And Set '2195' testUserId on Local storage
                 And Verify default user
                 When Clicks on 'Provide Decision' button in Current Status view
                 And Selects 'Decline' button decision

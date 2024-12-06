@@ -1,4 +1,4 @@
-Feature: Open the page of an asset for reading
+Feature: Assets - Open the page of an asset for reading
 
     This Feature is a automated test to open the page of an asset for reading
 
@@ -6,7 +6,7 @@ Feature: Open the page of an asset for reading
       Given An user is on Assets
     
     Scenario Outline: The page of a proposal is open
-       When The user clicks on the id of an asset
-        And The user clicks on the tab proposals
-        And The user clicks on the id of a proposal
+       When Clicks on the id of an asset
+        And Clicks on the tab proposals
+        And Clicks on the id of a proposal
        Then The page of the proposal shold be showed       

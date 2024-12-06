@@ -1,26 +1,26 @@
 const report = require("multiple-cucumber-html-reporter");
 const fs = require("fs");
 const { exec } = require("child_process");
-const path = './cypress/reports/cucumber-json';
 
 
 const cucumberJsonDirectory = './cypress/reports/cucumber-json'
 const cucumberHtmlMultiReport = './cypress/reports/html-multi-report'
 const isWin = process.platform === "win32";
-const command = 'cat "./cypress/reports/oneFolder/cucumber-ndjson/cucumber-report.ndjson" "./cypress/reports/oneLegal/cucumber-ndjson/cucumber-report.ndjson" | /caminho/completo/para/cucumber-json-formatter > "./cypress/reports/cucumber-json/cucumber-report.json"'
+const command = 'cat "./cypress/reports/cucumber-ndjson/cucumber-report.ndjson" | cucumber-json-formatter > "./cypress/reports/cucumber-json/cucumber-report.json"'
+
 const createDirectoryIfNotExist = (dir) => {
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir)
   }
 }
 
-if (!fs.existsSync(path)) {
-  fs.mkdirSync(path, { recursive: true });
-}
-
 // Creating directories..
 createDirectoryIfNotExist(cucumberJsonDirectory);
 createDirectoryIfNotExist(cucumberHtmlMultiReport);
+
+// afterEach(() => {
+//   cy.takeStepScreenshot('step_screenshot', { capture: 'fullPage' });
+// });
 
 const generateReport = () => {
   report.generate({
@@ -29,10 +29,6 @@ const generateReport = () => {
     ignoreBadJsonFile: true,
     displayReportTime: true,
     displayDuration: true,
-    theme: "bootstrap",
-    reportSuiteAsScenarios: true,
-    scenarioTimestamp: true,
-    launchReport: false,
     metadata: {
       device: "Local test machine.",
       platform: { name: "Windows", version: "11" },

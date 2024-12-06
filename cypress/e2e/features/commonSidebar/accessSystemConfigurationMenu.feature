@@ -1,4 +1,4 @@
-Feature: System Configurations Sidebar Navigation
+Feature: Access Navigation - System Configurations Sidebar Navigation
 
     This Feature is a automated test to the Sidebar Navigation in System Configuration tab
 
@@ -7,15 +7,12 @@ Feature: System Configurations Sidebar Navigation
 
 
     Scenario: Templates page should be visible
-        When Clicks on "Templates" tab on "system" menu
-        Then On "Messages" page should be open
+        When Clicks on 'Templates' tab on 'system' menu
+        Then On 'Messages' page should be open
 
 
-    Scenario Outline: "<submenu>" page should be visible
-        When Clicks on "<submenu>" tab on "system" menu
-        Then On "<page>" different page should be open
-
-        Examples:
-            | submenu       | page          |
-            | Lookup Tables | Activity Type |
-            | Security      | Users         |
+    Scenario: System pages should be visible
+        When Clicks on 'Lookup Tables' tab on 'system' menu
+        Then On 'Activity Type' different page should be open
+        When Clicks on 'Security' tab on 'system' menu
+        Then On 'Users' different page should be open

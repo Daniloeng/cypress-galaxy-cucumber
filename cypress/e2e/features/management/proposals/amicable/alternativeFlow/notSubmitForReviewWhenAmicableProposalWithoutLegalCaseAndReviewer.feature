@@ -1,4 +1,4 @@
-Feature: Galaxy - Management - Proposals
+Feature: Amicable Proposal - Dont send to submit to review an amicable proposal when it dont have reviewer associeted
     As Manager
     I cant send submit to review an amicable proposal
     whe the proposal doesnt have legal case associated
@@ -7,6 +7,8 @@ Feature: Galaxy - Management - Proposals
     Scenario Outline: Dont send to submit to review an amicable proposal when it dont have reviewer associeted with <strategyName> strategy
         #Draft to Waiting Review
         Given Create an Amicable proposal with id "<strategyId>" "<strategyName>" strategy without legal case and reviewer associated
+        # //for execution in parallel
+        And Set '2195' testUserId on Local storage
         And Verify default user
         Then The 'Send to Review' button from current status line should be not visible
 

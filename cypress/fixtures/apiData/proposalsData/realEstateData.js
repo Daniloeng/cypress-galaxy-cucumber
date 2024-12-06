@@ -1,8 +1,8 @@
 const currentDate = new Date();
 export const waitingReviewToAcknowledgeRealEstateData = {
     statusId: 2,
-    managerId: 1,
-    businessAreaId: 3,
+    managerId: 2197,
+    businessAreaId: 1,
     proposalTypeId: 3,
     transactionAllocationModeId: 2,
     domainEntityType: 8,
@@ -17,14 +17,14 @@ export const waitingReviewToAcknowledgeRealEstateData = {
         recurrencyValue: 4
     },
     reviewer: {
-        reviewerId: 2171
+        reviewerId: 2223
     }
 }
 
 export const acknowledgeToWaitingDecisionRealEstateData = {
     statusId: 3,
-    managerId: 1,
-    businessAreaId: 3,
+    managerId: 2197,
+    businessAreaId: 1,
     proposalTypeId: 3,
     transactionAllocationModeId: 2,
     domainEntityType: 8,
@@ -39,14 +39,14 @@ export const acknowledgeToWaitingDecisionRealEstateData = {
         recurrencyValue: 4
     },
     reviewer: {
-        reviewerId: 2171
+        reviewerId: 2223
     }
 };
 
-export const draftToWaitingDecisionRealEstateData = {
+export const draftToWaitingReviewRealEstateData = {
     statusId: 1,
-    managerId: 1,
-    businessAreaId: 3,
+    managerId: 2197,
+    businessAreaId: 1,
     proposalTypeId: 3,
     transactionAllocationModeId: 2,
     domainEntityType: 8,
@@ -58,21 +58,17 @@ export const draftToWaitingDecisionRealEstateData = {
         transactionTypeId: 311,
         amountPerPayment: 50,
         paymentDay: currentDate.getDate(),
-        recurrencyValue: 4,
-    },
-    proposalPaymentMethod: {
-        paymentMethodId: 1,
-        paymentSubMethodId: 3,
-    },
+        recurrencyValue: 4
+    },  
     reviewer: {
-        reviewerId: 2171
+        reviewerId: 2223
     }
 };
 
-export const approveRealEstateProposalData = {
+export const changeWaitingDecisionToDraftRealEstateProposalData = {
     statusId: 4,
-    managerId: 2169,
-    businessAreaId: 3,
+    managerId: 2217,
+    businessAreaId: 1,
     proposalTypeId: 3,
     transactionAllocationModeId: 2,
     domainEntityType: 8,
@@ -87,14 +83,14 @@ export const approveRealEstateProposalData = {
         recurrencyValue: 4
     },
     reviewer: {
-        reviewerId: 2171
+        reviewerId: 2223
     }
 };
 
 export const abortedRealEstateData = {
     statusId: 5,
-    managerId: 1,
-    businessAreaId: 3,
+    managerId: 2197,
+    businessAreaId: 1,
     proposalTypeId: 3,
     transactionAllocationModeId: 2,
     domainEntityType: 8,
@@ -109,14 +105,14 @@ export const abortedRealEstateData = {
         recurrencyValue: 4
     },
     reviewer: {
-        reviewerId: 2171
+        reviewerId: 2223
     }
 };
 
 export const draftToCanceledRealEstateData = {
     statusId: 1,
-    managerId: 1,
-    businessAreaId: 3,
+    managerId: 2197,
+    businessAreaId: 1,
     proposalTypeId: 3,
     transactionAllocationModeId: 2,
     domainEntityType: 8,
@@ -131,6 +127,6 @@ export const draftToCanceledRealEstateData = {
         recurrencyValue: 4
     },
     reviewer: {
-        reviewerId: 2171
+        reviewerId: 2223
     }
 };

@@ -1,33 +1,92 @@
-trigger:
- - master
- 
+
 pool: VM Scale Set PROD
 
-steps:
- - task: NodeTool@0
-   inputs:
-     versionSpec: "18.x"
-   displayName: "Install Node.js"
+stages:
+ - stage: "CypressTestRun"
+   jobs:
+      - job: 'DocumentsRecentCRUD'
+        displayName: 'Documents Recent CRUD'
+        continueOnError: true
+        steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: "18.x"
+            displayName: "Install Node.js"
+          
+          - script: |
+              npm install
+              npm install -g @deepakvishwakarma/cucumber-json-formatter
+            displayName: 'Install Cypress dependencies'
 
- - task: Npm@1
-   displayName: 'Cypress install packages'
-   inputs:
-      command: install
-      workingDir: '$(Build.Repository.LocalPath)'
-      verbose: true
+          - script: npx cypress run --spec cypress\e2e\features\documents\all\documentsAllViews.feature && node cucumber-html-report.js
+            env:
+              BASE_URL: "https://galaxyuatdm.whitestar.pt"
+            displayName: 'Run Cypress tests for Documents Recent CRUD'
+            continueOnError: true
 
- - script: npm install -g @deepakvishwakarma/cucumber-json-formatter
-   displayName: 'Cypres install cucumber-json-formatter'
+          - script: node cucumber-html-report.js
+            displayName: 'Generate Cucumber HTML report'
+            continueOnError: true
 
- - script: npm run reports:runandcreate
-   env:
-     BASE_URL: "https://galaxyuatdm.whitestar.pt"
-   displayName: 'Cypres run tests'
-   continueOnError: true
+          - task: PublishBuildArtifacts@1
+            displayName: "Publish Reports"
+            continueOnError: false
+            inputs:
+              pathtoPublish: '$(Build.Repository.LocalPath)\cypress\reports'
+              ArtifactName: reportsDocumentsRecentCRUD
 
- - task: PublishBuildArtifacts@1
-   displayName: "Publish Reports"
-   continueOnError: false
-   inputs:
-     pathtoPublish: '$(Build.Repository.LocalPath)\cypress\reports'
-     ArtifactName: reports
+      - job: 'DocumentsRecentViews'
+        displayName: 'Documents Recent Views'
+        continueOnError: true
+        steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: "18.x"
+            displayName: "Install Node.js"
+          
+          - script: |
+              npm install
+              npm install -g @deepakvishwakarma/cucumber-json-formatter
+            displayName: 'Install Cypress dependencies'
+
+          - script: npx cypress run --spec cypress\e2e\features\documents\recent\documentsRecentViews.feature && node cucumber-html-report.js
+            env:
+              BASE_URL: "https://galaxyuatdm.whitestar.pt"
+            displayName: 'Run Cypress tests for Documents Recent Views'
+            continueOnError: true
+
+          - script: node cucumber-html-report.js
+            displayName: 'Generate Cucumber HTML report'
+            continueOnError: true
+
+          - task: PublishBuildArtifacts@1
+            displayName: "Publish Reports"
+            continueOnError: false
+            inputs:
+              pathtoPublish: '$(Build.Repository.LocalPath)\cypress\reports'
+              ArtifactName: reportDocumentsRecentViews
+
+ - stage: "GenerateTestsReport"
+   dependsOn: "CypressTestRun"
+   jobs:
+    - job: "Generate_report"
+      steps:
+        - task: NodeTool@0
+          inputs:
+            versionSpec: "18.x"
+          displayName: "Install Node.js"
+        
+        - script: |
+            npm install
+            npm install -g @deepakvishwakarma/cucumber-json-formatter
+            mkdir -p $(Build.Repository.LocalPath)/cypress/reports/merged
+            npx cucumber-json-formatter merge $(Build.Repository.LocalPath)/cypress/reports/ -o $(Build.Repository.LocalPath)/cypress/reports/merged/report.json
+          displayName: 'Install dependencies and combine reports'
+
+        - task: PublishBuildArtifacts@1
+          displayName: "Publish Reports"
+          continueOnError: false
+          inputs:
+            pathtoPublish: '$(Build.Repository.LocalPath)/cypress/reports/merged'
+            ArtifactName: finalReport
+            publishLocation: 'Container'

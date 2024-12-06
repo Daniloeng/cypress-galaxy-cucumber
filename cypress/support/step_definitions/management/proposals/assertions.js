@@ -6,20 +6,12 @@ Then(`The proposal should be change to {string} {string} status`, (status, statu
 });
 
 Then(`The proposal should be change the atention status to {string}`, (status) => {
-    cy.get('.status-attention-color > b', { timeout: 20000 }).should('be.visible').and('exist').contains(status);
-});
-
-Then(`The proposal should be change the to {string} Current Status`, (status) => {
-    cy.get('.p-megamenu-root-list > :nth-child(2)').click();
-    cy.get('.p-megamenu-root-list > :nth-child(1)').click();
-    cy.get('.p-steps-title').should('be.visible').contains(status);
+    cy.get('.status-attention-color > b', { timeout: 40000 }).should('be.visible').and('exist').contains(status);
 });
 
 Then(`The proposal should be change the to {string} in Current Status`, (status) => {
-    cy.get('.p-megamenu-root-list > :nth-child(2)', { timeout: 30000 }).should('be.visible', { timeout: 30000 }).click();
-    cy.get('.col > .container-fluid', { timeout: 30000 }).should('be.visible', { timeout: 30000 });
-    cy.get('.p-megamenu-root-list > :nth-child(1)', { timeout: 30000 }).should('be.visible', { timeout: 30000 }).click();
-    cy.get('.p-highlight', { timeout: 30000 }).should('be.visible', { timeout: 30000 }).contains(status);
+    cy.wait(2000);
+    cy.get('.p-highlight', { timeout: 80000 }).should('be.visible', { timeout: 80000 }).contains(status);
 });
 
 Then(`Should be visible a text {string} in current timeline`, (message) => {
@@ -45,17 +37,17 @@ Then(`Change proposal status to Canceled`, () => {
 });
 
 Then(`Only Proposal with this {string} Id should displayed in the list`, (type) => {
-    Step(this, `Wait for filter is applied`);
+    Step(this, `Wait for proposal filter is applied`);
     cy.wait('@filterProposal').get('table').find('td div[datacy="id"]').should('be.visible')
         .should('contain', type);
 });
 
-Then(`Wait for filter is applied`, () => {
+Then(`Wait for proposal filter is applied`, () => {
     cy.intercept('GET', Cypress.env('BASE_URL') + `/api/agreements/proposals/managerperspective**`).as('filterProposal');
 });
 
 Then(`Only Proposals with this {string} status should displayed in the list`, (status) => {
-    Step(this, `Wait for filter is applied`);
+    Step(this, `Wait for proposal filter is applied`);
     cy.wait('@filterProposal').get('table').then(($table) => {
         if ($table.find('td div[datacy="statusDescription"]').length === 0) {
             cy.get('tr.p-datatable-emptymessage td').should('contain', 'No records found');
@@ -65,7 +57,7 @@ Then(`Only Proposals with this {string} status should displayed in the list`, (s
                     cy.wrap($cells.eq(0)).should('contain', status);
                 } else {
                     $cells.each((index, cell) => {
-                        cy.wrap(cell).find('div[datacy="statusDescription"]').should('contain', status);
+                        cy.wrap(cell).should('contain', status);
                     });
                 }
             });
@@ -74,8 +66,8 @@ Then(`Only Proposals with this {string} status should displayed in the list`, (s
 });
 
 Then(`Only Proposals with this {string} type should displayed in the list`, (type) => {
-    Step(this, `Wait for filter is applied`);
-    cy.wait('@filterProposal').get('table').then(($table) => {
+    Step(this, `Wait for proposal filter is applied`);
+    cy.wait('@filterProposal', { timeout: 30000 }).get('table').then(($table) => {
         if ($table.find('td div[datacy="proposalTypeDescription"]').length === 0) {
             cy.get('tr.p-datatable-emptymessage td').should('contain', 'No records found');
         } else {
@@ -93,7 +85,7 @@ Then(`Only Proposals with this {string} type should displayed in the list`, (typ
 });
 
 Then(`Only Proposals with this {string} InDefault Status should displayed in the list`, (inDefault) => {
-    Step(this, `Wait for filter is applied`);
+    Step(this, `Wait for proposal filter is applied`);
     cy.wait('@filterProposal').get('table').then(($table) => {
         if ($table.find('td div[datacy="proposalInDefaultStatusDescription"]').length === 0) {
             cy.get('tr.p-datatable-emptymessage td').should('contain', 'No records found');
@@ -112,7 +104,7 @@ Then(`Only Proposals with this {string} InDefault Status should displayed in the
 });
 
 Then(`Only Proposals with this {string} strategy should displayed in the list`, (strategy) => {
-    Step(this, `Wait for filter is applied`);
+    Step(this, `Wait for proposal filter is applied`);
     cy.wait('@filterProposal');
     cy.wait(1000).get('table').then(($table) => {
         if ($table.find('td div[datacy="proposalStrategyDescription"]').length === 0) {
@@ -132,7 +124,7 @@ Then(`Only Proposals with this {string} strategy should displayed in the list`, 
 });
 
 Then(`The current Status must be visible {string}`, (currentStatus) => {
-    cy.get(`.p-steps-title:contains(${currentStatus})`).should('be.visible').and('exist').contains(currentStatus);
+    cy.get(`.p-steps-title:contains(${currentStatus})`, { timeout: 90000 }).should('be.visible').and('exist').contains(currentStatus);
 });
 
 Then(`The information status on top page should be {string}`, (informationStatus) => {

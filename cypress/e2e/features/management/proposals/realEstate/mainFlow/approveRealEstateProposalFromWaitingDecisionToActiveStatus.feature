@@ -1,12 +1,14 @@
-Feature: Change the status of a Real Estate Proposal from Waiting Decision to Active
+Feature: Real Estate Proposal - Change the status of a Real Estate Proposal from Waiting Decision to Active
   As a Head
   I want to approve an Real Estate proposal in Waiting Decision to Active status and their strategys
 
   Scenario Outline: Approve a Real Estate Proposal in Waiting Decision status to Active with <strategyName> strategy
     Given Create a Real Estate proposal on Waiting Decision with id "<strategyId>" and "<strategyName>" strategy by API
+    # //for execution in parallel
+    And Set '2197' testUserId on Local storage
     And Verify default user
 
-    # And Delegate the season to the 'testautomationhead' user
+    # And Delegate the season to the 'testhead3' user
     When Clicks on 'Provide Decision' button in Current Status view
     And Selects 'Approve' button decision
     And Types a comment 'Approve Decision of an amicalbe type and <strategyName> strategy' on Comments field
@@ -17,8 +19,8 @@ Feature: Change the status of a Real Estate Proposal from Waiting Decision to Ac
     And Should be visible a text 'Approve Decision' in current timeline
 
     Examples:
-      | strategyId | strategyName |
-      | 3          | Rent         |
-# | 4          | Sale                       |
-# | 5          | Sale with CPCV             |
-# | 29         | Sale w/CPCV Reinforcements |
+      | strategyId | strategyName               |
+      | 3          | Rent                       |
+      | 4          | Sale                       |
+      | 5          | Sale with CPCV             |
+      | 29         | Sale w/CPCV Reinforcements |

@@ -77,27 +77,25 @@ export function editLegalNotification(legalNotificationId, currentStatus) {
  */
 export function editLegalNotificationsLegalManager(legalNotificationId) {
   const path = `/api/legal/legalnotifications/assign/`;
-  getLegalNotification(legalNotificationId).then((legal) => { 
+  getLegalNotification(legalNotificationId).then(() => {
     const bodyRequest = {
-      "priorityId": 1,
-      "dueDate": "2023-10-19T00:00:00",
-      "comment": "environment",
-      "assignees": 
-      [
+      priorityId: 1,
+      dueDate: "2023-10-19T00:00:00",
+      comment: "environment",
+      assignees: [
         {
-          "userId": 1,
-          "roleId": 6,
-          "teamId": null,
-          "assignee": "Galaxy",
-          "roleName": "Legal Manager",
-          "securityGroupId": 1,
-          "securityGroupTypeId": 1
-        }
-      ]
+          userId: 1,
+          roleId: 6,
+          teamId: null,
+          assignee: "Galaxy",
+          roleName: "Legal Manager",
+          securityGroupId: 1,
+          securityGroupTypeId: 1,
+        },
+      ],
     };
-
-      putRequest(path, legalNotificationId, bodyRequest);
-    });
+    putRequest(path, legalNotificationId, bodyRequest);
+  });
   }
 
  /**

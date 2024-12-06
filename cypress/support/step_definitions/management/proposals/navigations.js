@@ -1,5 +1,6 @@
 import { Given, Step } from "@badeball/cypress-cucumber-preprocessor";
 import {
+    addIntervenient, addProposalPaymentMethod,
     createProposal, getOneLegalCaseInstanceIdByFilter
 } from "../../../apiServices/management/proposals/proposalServices";
 import {
@@ -8,10 +9,10 @@ import {
     inWaitingDecisionStatusWithReviewerForDelegate, inDraftStatus,
     inWaitingDecisionStatusWithReviewerForDraft
 } from "../../../../fixtures/apiData/proposalsData/legalProposalData";
-import { abortedRealEstateData, acknowledgeToWaitingDecisionRealEstateData, approveRealEstateProposalData, waitingReviewToAcknowledgeRealEstateData, draftToCanceledRealEstateData, draftToWaitingDecisionRealEstateData } from "../../../../fixtures/apiData/proposalsData/realEstateData";
-import { cancelProposalsFromAnAsset, getOneAssetIdByFilter } from "../../../apiServices/management/assets/assetServices";
+import { abortedRealEstateData, acknowledgeToWaitingDecisionRealEstateData, changeWaitingDecisionToDraftRealEstateProposalData, waitingReviewToAcknowledgeRealEstateData, draftToCanceledRealEstateData, draftToWaitingReviewRealEstateData } from "../../../../fixtures/apiData/proposalsData/realEstateData";
+import { cancelProposalsFromAnAsset, getOneAssetIdByFilter, getAssetByFilter, changeAssetBankCollectionsByAssetIdAndPortfolioId } from "../../../apiServices/management/assets/assetServices";
 
-const pathAndParametersLegal = `/api/legal/legalcases/15/instances?first=0&count=1&countTotalRecords=true`;
+const pathAndParametersLegal = `/api/legal/legalcases/606678/instances?first=0&count=1&countTotalRecords=true`;
 
 Given(`Create a Legal Proposal {string} strategy in Draft Status with Reviewer by api`, (strategyId) => {
     getOneLegalCaseInstanceIdByFilter(pathAndParametersLegal).then((instanceId) => {
@@ -97,7 +98,7 @@ Given(`Navigate to {string} proposal`, (proposalId) => {
 
 Given(`Verify default user`, () => {
     cy.wait(2000);
-    cy.get('.topbar-menu-visible')
+    cy.get('.topbar-menu-visible', { timeout: 30000 })
         .find('button [class^="UserTile_tile-left"]').should('be.visible').click({ force: true });
     cy.get('.active-topmenuitem > .fadeInDown').should('be.visible');
     cy.get('.topbar-menu-footer button', { timeout: 10000 }).should('be.visible').then(($button) => {
@@ -111,7 +112,15 @@ Given(`Verify default user`, () => {
             cy.get('.topbar-menu-visible').find('[class^="UserTile_tile-left"]').eq(0).click({ force: true });
         }
     });
-    cy.wait(2000);
+    cy.wait(5000);
+});
+
+Given(`Set {string} testUserId on Local storage`, (userId) => {
+    cy.window().then((win) => {
+        win.localStorage.setItem('testUserId', userId);
+    });
+    cy.reload();
+    cy.window().its('localStorage').should('have.property', 'testUserId', userId);
 });
 
 //Real Estate
@@ -143,15 +152,18 @@ Given(`Change a Real Estate proposal on Waiting Acknowledge status with id {stri
 })
 
 Given(`Change a Real Estate proposal from Draft to Waiting Review with id {string} {string} strategy`, (proposalStrategyId) => {
-    const pathAndParameters = `/api/assets/managerperspective?filters=all+equ+true&first=0&count=1&filters=assetStatusId+equ+2&countTotalRecords=true`;
-    return getOneAssetIdByFilter(pathAndParameters)
-        .then((assetId) => {
-            cancelProposalsFromAnAsset(assetId);
-            draftToWaitingDecisionRealEstateData.proposalStrategyId = parseInt(proposalStrategyId);
-            draftToWaitingDecisionRealEstateData.domainEntityId = parseInt(assetId);
-            createProposal(draftToWaitingDecisionRealEstateData).then((id) => {
+    const pathAndParameters = `/api/assets/managerperspective?filters=all+equ+true&first=0&count=1&orderBy=id+desc&filters=assetStatusId+equ+2&filters=assetTypeId+equ+11&countTotalRecords=true`;                                    
+    return getAssetByFilter(pathAndParameters)
+        .then((asset) => {
+            cancelProposalsFromAnAsset(asset.id);
+            // changeAssetBankCollectionsByAssetIdAndPortfolioId(asset.id, asset.portfolioIds[0])
+            draftToWaitingReviewRealEstateData.proposalStrategyId = parseInt(proposalStrategyId);
+            draftToWaitingReviewRealEstateData.domainEntityId = parseInt(asset.id);
+            // debugger
+            createProposal(draftToWaitingReviewRealEstateData).then((id) => {
                 addIntervenient(id, true, 691);
                 proposalId = id;
+                addProposalPaymentMethod(id, 1, 3);
                 Step(this, `Navigate to "${proposalId}" proposal`);
             });
         });
@@ -162,9 +174,9 @@ Given(`Create a Real Estate proposal on Waiting Decision with id {string} and {s
     return getOneAssetIdByFilter(pathAndParameters)
         .then((assetId) => {
             cancelProposalsFromAnAsset(assetId);
-            approveRealEstateProposalData.proposalStrategyId = parseInt(proposalStrategyId);
-            approveRealEstateProposalData.domainEntityId = parseInt(assetId);
-            createProposal(approveRealEstateProposalData).then((id) => {
+            changeWaitingDecisionToDraftRealEstateProposalData.proposalStrategyId = parseInt(proposalStrategyId);
+            changeWaitingDecisionToDraftRealEstateProposalData.domainEntityId = parseInt(assetId);
+            createProposal(changeWaitingDecisionToDraftRealEstateProposalData).then((id) => {
                 proposalId = id;
                 Step(this, `Navigate to "${proposalId}" proposal`);
             });

@@ -1,10 +1,12 @@
 
-Feature: Change the status of a Real Estate Proposal from Waiting Decision to Rejected
+Feature: Real Estate Proposal - Change the status of a Real Estate Proposal from Waiting Decision to Rejected
   As Head
   I want to change the status of a Real Estate Proposal from  Waiting Review to Rejected
 
   Scenario Outline: Reject a Real Estate Proposal in Waiting Decision status with <strategyName> strategy
     Given Create a Real Estate proposal on Waiting Decision with id "<strategyId>" and "<strategyName>" strategy by API
+    # //for execution in parallel
+    And Set '2197' testUserId on Local storage
     And Verify default user
     When Clicks on 'Provide Decision' button in Current Status view
     And Selects 'Decline' button decision

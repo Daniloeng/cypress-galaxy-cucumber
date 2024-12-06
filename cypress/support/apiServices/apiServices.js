@@ -15,7 +15,7 @@ export function getRequest(pathAndParameters) {
 
   const apiUrl = `${API_URL_HOST}${pathAndParameters}`;
   return cy.wrap().then(() => {
-    return cy.getToken().then((token) => {
+    return cy.getToken().then({ timeout: 130000 }, (token) => {
       return fetch(apiUrl, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -44,7 +44,7 @@ export function getRequest(pathAndParameters) {
  */
 export function putRequest(path, id, requestData) {
   const apiUrl = `${API_URL_HOST}${path}${id}`;
-  cy.getToken().then((token) => {
+  cy.getToken().then({timeout:130000}, (token) => {
     cy.request({
       method: 'PUT',
       url: apiUrl,
@@ -72,7 +72,7 @@ export function putRequest(path, id, requestData) {
  */
 export function postRequest(path, requestData) {
   const apiUrl = `${API_URL_HOST}${path}`;
-  return cy.getToken().then((token) => {
+  return cy.getToken().then({timeout:30000}, (token) => {
     return cy.request({
       method: 'POST',
       url: apiUrl,
@@ -88,5 +88,39 @@ export function postRequest(path, requestData) {
       console.log('POST Request Status:', response.statusText);
       return response.body;
     });
+  });
+}
+
+/**
+ * Makes a DELETE request to a specified API endpoint with the provided data.
+ *
+ * @param {string} path - The path or resource identifier in the API endpoint.
+ * @param {Object} requestData - The data to be sent in the PUT request body.
+ * 
+ * @throws {Error} If the request encounters an error or the response status is not OK.
+ */
+export function deleteRequest(path, requestData) {
+  const apiUrl = `${API_URL_HOST}${path}`;
+  cy.getToken().then({timeout:30000}, (token) => {
+    try {
+      cy.request({
+        method: 'DELETE',
+        url: apiUrl,
+        body: requestData,
+        headers: {
+          'accept': 'text/plain',
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      }).then((response) => {
+        if (response.status !== 200) {
+          throw new Error(`Request failed with status: ${response.status}`);
+        }
+        console.log('DELETE Request Status:', response.statusText);
+      });
+    } catch (error) {
+      console.error('An error occurred during DELETE request:', error);
+      throw error; // Re-throw the error to maintain consistent error handling
+    }
   });
 }

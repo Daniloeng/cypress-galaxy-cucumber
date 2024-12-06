@@ -238,10 +238,23 @@ export function addProposalPayment(proposalId, amount, transactionTypeId, amount
     "proposalId": proposalId,
     "recurrencyValue": recurrencyValue,
     "recurrencyUnitId": "6",
-    "rowVersion": ""
+    "installments": [
+      {
+        "key": 1,
+        "amountPerPayment": amountPerPayment,
+        "numberOfPayments": 4,
+        "transactionTypeId":transactionTypeId,
+        "recurrencyValue": recurrencyValue,
+        "recurrencyUnitId": 6,
+        "definedByAmount": true,
+        "total": amount,
+      }
+    ]
   }
+  // debugger
   postRequest(path, bodyRequest);
 }
+
 
 /**
  * Add a proposal payment method to a proposal.
@@ -258,11 +271,10 @@ export function addProposalPaymentMethod(proposalId, paymentMethodId, paymentSub
   const bodyRequest = {
     "isPreferential": true,
     "MovePaymentMethod": false,
-    "externalPaymentMethodId": null,
+    "externalPaymentMethodId": 0,
     "paymentMethodId": paymentMethodId,
     "paymentSubMethodId": paymentSubMethodId,
-    "proposalId": proposalId,
-    "rowVersion": ""
+    "proposalId": proposalId
   }
   postRequest(path, bodyRequest);
 }
@@ -368,7 +380,7 @@ export function createProposal(proposal) {
     proposalId = data.item.id;
     if (proposal.proposalPayment != null) {
       return addProposalPayment(proposalId, proposal.proposalPayment.amount, proposal.proposalPayment.transactionTypeId, proposal.proposalPayment.amountPerPayment, proposal.proposalPayment.recurrencyValue, proposal.proposalPayment.paymentDay);
-    }
+    }    
     return proposalId;
   }).then(() => {
     if (proposal.proposalPaymentMethod != null) {

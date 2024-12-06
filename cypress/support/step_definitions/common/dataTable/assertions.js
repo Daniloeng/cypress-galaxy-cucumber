@@ -1,6 +1,7 @@
 import { Then } from "@badeball/cypress-cucumber-preprocessor";
+
 Then(`{string} table is loaded`, (table) => {
-    cy.get('table').should('be.visible');
+    cy.get('table', { timeout: 30000 }).should('be.visible');
     cy.get('.gx-datatable__title').get('[class^="Title_title-annotation__"]').should('exist');
     cy.get('.gx-datatable__title').contains(table);
 });
@@ -14,15 +15,19 @@ Then(`The {string} column is showed`, (column) => {
     cy.get('.p-datatable-thead > tr >').should('exist', column);
 });
 
+Then(`The datatable should show the currency items according to the filter {string} option and {string} data in the {string} column applied`,
+    (filterType, dataToBeSearched, column) => {
+        cy.wait('@filterApplied', { timeout: 70000 }).applyCurrencyFilterDatatable(filterType, column, dataToBeSearched);
+});
 
 Then(`The datatable should show the string items according to the filter {string} option and {string} data in the {string} column applied`,
     (filterType, dataToBeSearched, column) => {
-        cy.wait('@appliedAsset', { timeout: 20000 }).applyStringFilterDatatable(filterType, column, dataToBeSearched);
+        cy.wait('@filterApplied', { timeout: 70000 }).applyStringFilterDatatable(filterType, column, dataToBeSearched);
 });
 
 Then(`The datatable should show the date items according to the filter {string} option and {string} data in the {string} column applied`,
     (filterType, dataToBeSearched, column) => {
-        cy.wait('@appliedAsset', { timeout: 30000 }).applyDateFilterDatatable(filterType, column, dataToBeSearched);
+        cy.wait('@filterApplied', { timeout: 70000 }).applyDateFilterDatatable(filterType, column, dataToBeSearched);
 });
 
 Then(`Only the proposal matching the {string} column filter should be visible in the list`, (filter) => {
