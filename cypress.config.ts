@@ -13,8 +13,7 @@ export default defineConfig({
   video: false,
   downloadsFolder: 'cypress/downloads',
   e2e: {
-    defaultCommandTimeout: 15000,
-    baseUrl: 'https://galaxyuat.whitestar.pt',
+    defaultCommandTimeout: 15000,    
     specPattern: "cypress/e2e/**/*.feature",
     experimentalRunAllSpecs: true,
     env: { hideXhr: true },
